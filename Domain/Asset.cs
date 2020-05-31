@@ -11,5 +11,6 @@ namespace OAM.Service.Domain
         public AssetType Type { get; set; }
         public string Description { get; set; }
         public List<Asset>? SubAssets { get; set; }
+        public string ClientId { get; set; }
     }
 }

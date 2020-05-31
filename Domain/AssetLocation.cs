@@ -10,5 +10,6 @@ namespace OAM.Service.Domain
         public int Id { get; set; }
         public string Location { get; set; }
         public List<Asset>? Assets { get; set; }
+        public string ClientId { get; set; }
     }
 }

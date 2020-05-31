@@ -1,4 +1,4 @@
-appsettings.json
+appsettings.Development.json
 tempkey.rsa
 .vs/
 #ignore thumbnails created by windows

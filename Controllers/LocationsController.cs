@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OAM.Service.Contexts;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -18,14 +20,14 @@ namespace OAM.Service.Controllers
     {
         // GET: api/<LocationsController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
             string[] list;
-            using (var ctx = new AssetContext())
+            using (var ctx = new AssetContext(new DbContextOptionsBuilder<AssetContext>().Options))
             {
-
+                //ctx.AssetLocations.Where(o => o.ClientId == User.Claims.Where(o => o.Type == "sid"));;
             }
-            return new string[] { "value1", "value2" };
+            return new JsonResult(new string[] { "value1", "value2" });
         }
 
         // POST api/<LocationsController>

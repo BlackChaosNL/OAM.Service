@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Copyright>Jeroen Vijgen</Copyright>
-    <PackageLicenseExpression>LGPL</PackageLicenseExpression>
+    <PackageLicenseExpression></PackageLicenseExpression>
     <NeutralLanguage>en-150</NeutralLanguage>
     <StartupObject>OAM.Service.Program</StartupObject>
     <AssemblyName>Open Asset Manager Service</AssemblyName>

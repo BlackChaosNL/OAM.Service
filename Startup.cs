@@ -11,6 +11,10 @@ using OAM.Service.Contexts;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
 using IdentityServer4.EntityFramework.DbContexts;
+using System.Runtime.CompilerServices;
+using OAM.Service.Helpers;
+using System.Linq;
+using IdentityServer4.EntityFramework.Mappers;
 
 namespace OAM.Service
 {
@@ -60,7 +64,7 @@ namespace OAM.Service
             
             IsDevelopment = env.IsDevelopment();
 
-            InitializeDatabase(app);
+            InitializeDatabase(app, IsDevelopment);
 
             app.UseHttpsRedirection();
 
@@ -78,15 +82,49 @@ namespace OAM.Service
             });
         }
 
-        private static void InitializeDatabase(IApplicationBuilder app)
+        private static void InitializeDatabase(IApplicationBuilder app, bool IsDevelopment)
         {
             using var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
             var services = scope.ServiceProvider;
+            
             try
             {
-                services.GetRequiredService<PersistedGrantDbContext>().Database.EnsureCreated();
-                services.GetRequiredService<ConfigurationDbContext>().Database.EnsureCreated();
+                services.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+                services.GetRequiredService<ConfigurationDbContext>().Database.Migrate();
                 services.GetRequiredService<AssetContext>().Database.EnsureCreated();
+
+                if (IsDevelopment)
+                {
+                    Console.WriteLine("Development phase enabled.");
+                    var ctx = services.GetRequiredService<ConfigurationDbContext>();
+                    if (!ctx.Clients.Any())
+                    {
+                        foreach (var client in Config.GetClients())
+                        {
+                            ctx.Clients.Add(client.ToEntity());
+                        }
+                        ctx.SaveChanges();
+                    }
+
+                    if (!ctx.IdentityResources.Any())
+                    {
+                        foreach (var resource in Config.GetIdentityResources())
+                        {
+                            ctx.IdentityResources.Add(resource.ToEntity());
+                        }
+                        ctx.SaveChanges();
+                    }
+
+                    if (!ctx.ApiResources.Any())
+                    {
+                        foreach (var resource in Config.GetApiResources())
+                        {
+                            ctx.ApiResources.Add(resource.ToEntity());
+                        }
+                        ctx.SaveChanges();
+                    }
+                }
+
             }
             catch (Exception ex)
             {
