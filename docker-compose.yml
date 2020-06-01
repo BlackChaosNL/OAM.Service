@@ -1,0 +1,15 @@
+version: '3'
+services:
+	OAM.Service:
+		build:
+			context: .
+	database:
+        image: "postgres"
+        environment:
+          - POSTGRES_USER=postgres
+          - POSTGRES_PASSWORD=postgres
+        volumes:
+          - database-data:/var/lib/postgresql/data/
+
+volumes: 
+    database-data: 
