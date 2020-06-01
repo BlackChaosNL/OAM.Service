@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OAM.Service.Contexts;
+using OAM.Service.Domain;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,18 +23,19 @@ namespace OAM.Service.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            string[] list;
+            List<AssetLocation> list;
             using (var ctx = new AssetContext(new DbContextOptionsBuilder<AssetContext>().Options))
             {
-                //ctx.AssetLocations.Where(o => o.ClientId == User.Claims.Where(o => o.Type == "sid"));;
+                list = ctx.AssetLocations.Where(o => o.ClientId == User.Identity.GetSubjectId()).ToList();
             }
-            return new JsonResult(new string[] { "value1", "value2" });
+            return new JsonResult(list);
         }
 
         // POST api/<LocationsController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] AssetLocation value)
         {
+
         }
 
         // PUT api/<LocationsController>/5

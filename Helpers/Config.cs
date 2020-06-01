@@ -1,8 +1,7 @@
-﻿using IdentityServer4.Models;
-using System;
+﻿using IdentityModel;
+using IdentityServer4.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace OAM.Service.Helpers
 {
@@ -14,6 +13,11 @@ namespace OAM.Service.Helpers
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
+                new IdentityResources.Email(),
+                new IdentityResource {
+                    Name = "Role",
+                    UserClaims = new List<string> {"role"}
+                }
             };
         }
 
@@ -21,7 +25,17 @@ namespace OAM.Service.Helpers
         {
             return new List<ApiResource>
             {
-                new ApiResource("OAM.Service", "Open Asset Manager Service API")
+                new ApiResource
+                {
+                    Name = "OAM.Service",
+                    DisplayName = "Open Asset Manager Service API",
+                    UserClaims = new List<string> {"role"},
+                    Scopes = new List<Scope>
+                    {
+                        // Only one scope needed for OAM.Service.
+                        new Scope("OAM.Service")
+                    }
+                }
             };
         }
 
@@ -32,6 +46,8 @@ namespace OAM.Service.Helpers
                 new Client
                 {
                     ClientId = "Administrator",
+                    ClientName = "OAM Administrator",
+                    AllowOfflineAccess = true,
                     // no interactive user, use the clientid/secret for authentication
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     // secret for authentication
@@ -39,7 +55,12 @@ namespace OAM.Service.Helpers
                         new Secret("Adm1n1strat0r!".Sha256())
                     },
                     // scopes that client has access to
-                    AllowedScopes = { "OAM.Service" }
+                    AllowedScopes = { "OAM.Service" },
+                    Claims = new List<Claim>
+                    {
+                        // We're an admin, so we need the appropriate role.
+                        new Claim(JwtClaimTypes.Role, "Admin")
+                    }
                 }
             };
         }
