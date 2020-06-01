@@ -30,9 +30,9 @@ This is the repository for the backend service of the Open Asset Manager, the fu
 - [ ] The User needs to be able to define (multiple) Assets;
 - [ ] The User needs to be able to export multiple Asset Chains (Assets including Sub-Assets);
 - [ ] The User needs to be able to import multiple Asset Chains (Assets including Sub-Assets);
-- [ ] A Docker module needs to be added for usage in a containerized environment;
+- [X] A Docker module needs to be added for usage in a containerized environment;
 - [ ] A set of unit tests need to be written to verify regression when updating;
-- [ ] A permissive license needs to be granted for FOSS usage. (Including all sub-software: To be verified)
+- [X] A permissive license needs to be granted for FOSS usage. (Including all sub-software: To be verified)
 
 ### 3. Software Used 
 
@@ -52,3 +52,19 @@ The following licenses are applied to the following pieces of software:
 - EF Core - [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0);
 - IdentityServer4 - [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0);
 - PostgresQL - [PostgresQL license](https://www.postgresql.org/about/licence/);
+
+The following license is applicable for OAM.Service:
+
+Copyright 2020 Jeroen Vijgen
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
